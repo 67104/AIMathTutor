@@ -1,0 +1,115 @@
+<AskAIScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Ask AI"
+            elevation: 3
+            left_action_items: [["arrow-left", lambda x: app.go_home()]]
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                padding: "16dp"
+                spacing: "14dp"
+
+                MDLabel:
+                    text: "Type a math question and see every step."
+                    theme_text_color: "Secondary"
+                    adaptive_height: True
+
+                MDTextField:
+                    id: question_field
+                    hint_text: "e.g.  solve 2x + 3 = 11    •    integrate x^2"
+                    mode: "rectangle"
+                    multiline: True
+
+                MDRaisedButton:
+                    text: "Solve"
+                    icon: "calculator-variant"
+                    size_hint_x: 1
+                    on_release: root.solve()
+
+                MDBoxLayout:
+                    adaptive_height: True
+                    size_hint_y: None
+                    height: "36dp"
+                    MDSpinner:
+                        id: spinner
+                        active: False
+                        size_hint: None, None
+                        size: "28dp", "28dp"
+                        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+                MDLabel:
+                    id: error_label
+                    text: ""
+                    theme_text_color: "Error"
+                    adaptive_height: True
+
+                MDBoxLayout:
+                    id: result_box
+                    orientation: "vertical"
+                    adaptive_height: True
+                    spacing: "12dp"
+                    opacity: 0
+
+                    MDLabel:
+                        id: category_label
+                        text: ""
+                        font_style: "Overline"
+                        theme_text_color: "Primary"
+                        adaptive_height: True
+
+                    SectionCard:
+                        md_bg_color: app.theme_cls.primary_color
+                        MDLabel:
+                            text: "Answer"
+                            font_style: "Overline"
+                            theme_text_color: "Custom"
+                            text_color: 1, 1, 1, 0.85
+                            adaptive_height: True
+                        MDLabel:
+                            id: answer_label
+                            text: ""
+                            font_style: "H5"
+                            bold: True
+                            theme_text_color: "Custom"
+                            text_color: 1, 1, 1, 1
+                            adaptive_height: True
+
+                    MDLabel:
+                        text: "Steps"
+                        font_style: "Subtitle1"
+                        bold: True
+                        adaptive_height: True
+
+                    MDList:
+                        id: steps_list
+                        size_hint_y: None
+                        height: self.minimum_height
+
+                    SectionCard:
+                        MDLabel:
+                            text: "Concept"
+                            font_style: "Subtitle1"
+                            bold: True
+                            adaptive_height: True
+                        MDLabel:
+                            id: concept_label
+                            text: ""
+                            theme_text_color: "Secondary"
+                            adaptive_height: True
+
+                    MDLabel:
+                        text: "Practice similar questions"
+                        font_style: "Subtitle1"
+                        bold: True
+                        adaptive_height: True
+
+                    MDBoxLayout:
+                        id: similar_box
+                        orientation: "vertical"
+                        adaptive_height: True
+                        spacing: "6dp"

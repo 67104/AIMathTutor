@@ -1,0 +1,59 @@
+<DailyChallengeScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Daily Challenge"
+            elevation: 3
+            left_action_items: [["arrow-left", lambda x: app.go_home()]]
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                padding: "16dp"
+                spacing: "14dp"
+
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    adaptive_height: True
+                    padding: "18dp"
+                    spacing: "8dp"
+                    radius: [18, 18, 18, 18]
+                    elevation: 3
+                    md_bg_color: 0.90, 0.49, 0.13, 1
+                    MDIcon:
+                        icon: "star-four-points"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                        font_size: "40sp"
+                        size_hint_y: None
+                        height: "44dp"
+                    MDLabel:
+                        text: "Today's Challenge"
+                        font_style: "H6"
+                        bold: True
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                        adaptive_height: True
+
+                SectionCard:
+                    MDLabel:
+                        id: daily_question
+                        text: ""
+                        font_style: "Subtitle1"
+                        adaptive_height: True
+
+                MDRaisedButton:
+                    text: "Claim reward"
+                    icon: "gift-outline"
+                    size_hint_x: 1
+                    on_release: root.claim()
+
+                MDLabel:
+                    id: daily_status
+                    text: ""
+                    font_style: "Caption"
+                    theme_text_color: "Secondary"
+                    adaptive_height: True

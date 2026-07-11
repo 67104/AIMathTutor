@@ -1,0 +1,80 @@
+<PracticeScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Practice"
+            elevation: 3
+            left_action_items: [["arrow-left", lambda x: app.go_home()]]
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                padding: "16dp"
+                spacing: "12dp"
+
+                MDBoxLayout:
+                    adaptive_height: True
+                    MDLabel:
+                        id: difficulty_label
+                        text: "Difficulty: Easy"
+                        font_style: "Caption"
+                        theme_text_color: "Primary"
+                        adaptive_height: True
+                    MDLabel:
+                        id: timer_label
+                        text: "0.0s"
+                        font_style: "Caption"
+                        halign: "right"
+                        theme_text_color: "Secondary"
+                        adaptive_height: True
+
+                MDBoxLayout:
+                    adaptive_height: True
+                    MDLabel:
+                        id: counter_label
+                        text: "Question 1"
+                        font_style: "Caption"
+                        theme_text_color: "Secondary"
+                        adaptive_height: True
+                    MDLabel:
+                        id: score_label
+                        text: "Score 0/0"
+                        font_style: "Caption"
+                        halign: "right"
+                        theme_text_color: "Secondary"
+                        adaptive_height: True
+
+                SectionCard:
+                    MDLabel:
+                        id: question_label
+                        text: ""
+                        font_style: "H5"
+                        bold: True
+                        adaptive_height: True
+
+                MDBoxLayout:
+                    id: options_box
+                    orientation: "vertical"
+                    adaptive_height: True
+                    spacing: "10dp"
+
+                MDLabel:
+                    id: feedback_label
+                    text: ""
+                    font_style: "Subtitle1"
+                    bold: True
+                    adaptive_height: True
+
+                MDRaisedButton:
+                    text: "Next question"
+                    icon: "arrow-right"
+                    size_hint_x: 1
+                    on_release: root.next_question()
+
+                MDLabel:
+                    text: "Questions are generated for your grade and get harder as you improve."
+                    font_style: "Caption"
+                    theme_text_color: "Hint"
+                    adaptive_height: True

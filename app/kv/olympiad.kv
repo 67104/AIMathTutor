@@ -1,0 +1,87 @@
+<OlympiadScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Olympiad Prep"
+            elevation: 3
+            left_action_items: [["arrow-left", lambda x: app.go_home()]]
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                padding: "16dp"
+                spacing: "12dp"
+
+                MDLabel:
+                    text: "SOF preparation — original, syllabus-aligned questions."
+                    theme_text_color: "Secondary"
+                    adaptive_height: True
+
+                MDBoxLayout:
+                    adaptive_height: True
+                    spacing: "6dp"
+                    MDRaisedButton:
+                        text: "IMO"
+                        size_hint_x: 1
+                        on_release: root.set_exam("IMO")
+                    MDFlatButton:
+                        text: "NSO"
+                        size_hint_x: 1
+                        on_release: root.set_exam("NSO")
+                    MDFlatButton:
+                        text: "IEO"
+                        size_hint_x: 1
+                        on_release: root.set_exam("IEO")
+                    MDFlatButton:
+                        text: "IGKO"
+                        size_hint_x: 1
+                        on_release: root.set_exam("IGKO")
+
+                MDBoxLayout:
+                    adaptive_height: True
+                    spacing: "6dp"
+                    MDRaisedButton:
+                        text: "Level 1"
+                        size_hint_x: 1
+                        on_release: root.set_level(1)
+                    MDFlatButton:
+                        text: "Level 2"
+                        size_hint_x: 1
+                        on_release: root.set_level(2)
+
+                MDLabel:
+                    id: selection_label
+                    text: "IMO  •  Level 1"
+                    font_style: "Subtitle1"
+                    bold: True
+                    theme_text_color: "Primary"
+                    adaptive_height: True
+
+                MDLabel:
+                    id: exam_note
+                    text: "Mathematical + Logical Reasoning."
+                    font_style: "Caption"
+                    theme_text_color: "Hint"
+                    adaptive_height: True
+
+                MDBoxLayout:
+                    adaptive_height: True
+                    spacing: "8dp"
+                    MDRaisedButton:
+                        text: "Practice"
+                        icon: "pencil"
+                        size_hint_x: 1
+                        on_release: root.start_practice()
+                    MDRaisedButton:
+                        text: "Start Mock Test"
+                        icon: "timer-outline"
+                        size_hint_x: 1
+                        on_release: root.start_mock()
+
+                MDBoxLayout:
+                    id: olympiad_content
+                    orientation: "vertical"
+                    adaptive_height: True
+                    spacing: "12dp"

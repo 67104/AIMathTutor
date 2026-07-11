@@ -1,0 +1,71 @@
+<OnboardingScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: "24dp"
+        spacing: "18dp"
+        md_bg_color: app.theme_cls.bg_normal
+
+        Widget:
+            size_hint_y: None
+            height: "40dp"
+
+        MDIcon:
+            icon: "school"
+            halign: "center"
+            font_size: "72sp"
+            theme_text_color: "Primary"
+            size_hint_y: None
+            height: "80dp"
+
+        MDLabel:
+            text: "Welcome!"
+            font_style: "H4"
+            bold: True
+            halign: "center"
+            adaptive_height: True
+
+        MDLabel:
+            text: "Let's set up your learning profile"
+            font_style: "Subtitle1"
+            theme_text_color: "Secondary"
+            halign: "center"
+            adaptive_height: True
+
+        Widget:
+            size_hint_y: None
+            height: "8dp"
+
+        MDTextField:
+            id: name_field
+            hint_text: "Your name"
+            icon_left: "account"
+            mode: "rectangle"
+            helper_text: "Required"
+            helper_text_mode: "on_error"
+
+        MDTextField:
+            id: age_field
+            hint_text: "Age"
+            icon_left: "calendar"
+            mode: "rectangle"
+            input_filter: "int"
+            helper_text: "Enter an age between 3 and 120"
+            helper_text_mode: "on_error"
+
+        MDTextField:
+            id: grade_field
+            hint_text: "Grade (1-12)"
+            icon_left: "book-open-variant"
+            mode: "rectangle"
+            input_filter: "int"
+            helper_text: "Enter a grade between 1 and 12"
+            helper_text_mode: "on_error"
+
+        Widget:
+
+        MDRaisedButton:
+            text: "Get Started"
+            font_size: "17sp"
+            size_hint_x: 1
+            pos_hint: {"center_x": 0.5}
+            on_release: root.submit()

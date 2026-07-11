@@ -1,0 +1,56 @@
+<AchievementsScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Achievements"
+            elevation: 3
+            left_action_items: [["arrow-left", lambda x: app.go_home()]]
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                padding: "16dp"
+                spacing: "14dp"
+
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    adaptive_height: True
+                    padding: "18dp"
+                    spacing: "8dp"
+                    radius: [18, 18, 18, 18]
+                    elevation: 3
+                    md_bg_color: app.theme_cls.primary_color
+                    MDLabel:
+                        id: level_label
+                        text: "Level 3"
+                        font_style: "H4"
+                        bold: True
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                        adaptive_height: True
+                    MDLabel:
+                        id: xp_label
+                        text: "320 / 500 XP"
+                        font_style: "Caption"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 0.85
+                        adaptive_height: True
+                    MDProgressBar:
+                        id: xp_bar
+                        value: 320
+                        max: 500
+                        color: 1, 1, 1, 1
+
+                MDLabel:
+                    text: "Badges"
+                    font_style: "Subtitle1"
+                    bold: True
+                    adaptive_height: True
+
+                MDList:
+                    id: badge_list
+                    size_hint_y: None
+                    height: self.minimum_height

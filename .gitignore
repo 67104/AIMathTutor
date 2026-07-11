@@ -1,0 +1,25 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# --- Virtual environment (do NOT push; ~100s of MB) ---
+.venv/
+venv/
+
+# --- Buildozer / Android build output ---
+.buildozer/
+bin/
+*.apk
+*.aab
+
+# --- Runtime-generated data (created on first run; not source) ---
+data/mathtutor.db
+data/weekly_chart.png
+*.db
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/

@@ -1,0 +1,74 @@
+# Shared widget rules (auto-applied by class name).
+
+<FeatureCard>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "128dp"
+    padding: "14dp"
+    spacing: "4dp"
+    radius: [18, 18, 18, 18]
+    elevation: 3
+    shadow_softness: 6
+    ripple_behavior: True
+    md_bg_color: root.card_color
+    on_release: app.route(root.target)
+    MDIcon:
+        icon: root.icon
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
+        font_size: "34sp"
+        size_hint_y: None
+        height: "40dp"
+    Widget:
+        size_hint_y: None
+        height: "4dp"
+    MDLabel:
+        text: root.title
+        font_style: "H6"
+        bold: True
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
+        adaptive_height: True
+    MDLabel:
+        text: root.subtitle
+        font_style: "Caption"
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 0.85
+        adaptive_height: True
+
+
+<StatTile>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "96dp"
+    padding: "12dp"
+    spacing: "2dp"
+    radius: [16, 16, 16, 16]
+    elevation: 2
+    MDIcon:
+        icon: root.icon
+        theme_text_color: "Custom"
+        text_color: root.accent
+        font_size: "26sp"
+        size_hint_y: None
+        height: "28dp"
+    MDLabel:
+        text: root.value
+        font_style: "H5"
+        bold: True
+        adaptive_height: True
+    MDLabel:
+        text: root.label
+        font_style: "Caption"
+        theme_text_color: "Secondary"
+        adaptive_height: True
+
+
+<SectionCard>:
+    orientation: "vertical"
+    size_hint_y: None
+    adaptive_height: True
+    padding: "16dp"
+    spacing: "10dp"
+    radius: [16, 16, 16, 16]
+    elevation: 1

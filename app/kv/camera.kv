@@ -1,0 +1,93 @@
+<CameraScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Camera Solver"
+            elevation: 3
+            left_action_items: [["arrow-left", lambda x: app.go_home()]]
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                padding: "16dp"
+                spacing: "14dp"
+
+                MDCard:
+                    size_hint_y: None
+                    height: "200dp"
+                    radius: [16, 16, 16, 16]
+                    md_bg_color: 0, 0, 0, 0.06
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        MDIcon:
+                            icon: "camera-outline"
+                            halign: "center"
+                            font_size: "64sp"
+                            theme_text_color: "Hint"
+                        MDLabel:
+                            text: "Camera preview appears here"
+                            halign: "center"
+                            theme_text_color: "Hint"
+                            adaptive_height: True
+
+                MDBoxLayout:
+                    adaptive_height: True
+                    spacing: "12dp"
+                    MDRaisedButton:
+                        text: "Capture"
+                        icon: "camera"
+                        size_hint_x: 1
+                        on_release: root.capture()
+                    MDFlatButton:
+                        text: "Gallery"
+                        icon: "image-multiple"
+                        size_hint_x: 1
+                        on_release: root.pick_gallery()
+
+                MDLabel:
+                    text: "Recognised expression (edit if needed):"
+                    font_style: "Caption"
+                    theme_text_color: "Secondary"
+                    adaptive_height: True
+
+                MDTextField:
+                    id: recognized_field
+                    hint_text: "Captured math appears here"
+                    mode: "rectangle"
+
+                MDRaisedButton:
+                    text: "Solve"
+                    icon: "calculator-variant"
+                    size_hint_x: 1
+                    on_release: root.solve()
+
+                MDBoxLayout:
+                    id: result_box
+                    orientation: "vertical"
+                    adaptive_height: True
+                    opacity: 0
+                    SectionCard:
+                        md_bg_color: app.theme_cls.primary_color
+                        MDLabel:
+                            text: "Answer"
+                            font_style: "Overline"
+                            theme_text_color: "Custom"
+                            text_color: 1, 1, 1, 0.85
+                            adaptive_height: True
+                        MDLabel:
+                            id: answer_label
+                            text: ""
+                            font_style: "H5"
+                            bold: True
+                            theme_text_color: "Custom"
+                            text_color: 1, 1, 1, 1
+                            adaptive_height: True
+
+                MDLabel:
+                    id: status_label
+                    text: "Point the camera at a printed problem."
+                    font_style: "Caption"
+                    theme_text_color: "Hint"
+                    adaptive_height: True

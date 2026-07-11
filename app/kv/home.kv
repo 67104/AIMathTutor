@@ -1,0 +1,211 @@
+<HomeScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: app.title
+            elevation: 3
+            left_action_items: [["menu", lambda x: app.open_drawer()]]
+            right_action_items: [["fire", lambda x: app.route("tab:progress")]]
+
+        MDBottomNavigation:
+            id: bottom_nav
+            selected_color_background: app.theme_cls.primary_light
+            text_color_active: app.theme_cls.primary_color
+
+            # ---------------- LEARN TAB ----------------
+            MDBottomNavigationItem:
+                name: "learn"
+                text: "Learn"
+                icon: "school"
+
+                ScrollView:
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        adaptive_height: True
+                        padding: "16dp"
+                        spacing: "14dp"
+
+                        SectionCard:
+                            md_bg_color: app.theme_cls.primary_color
+                            MDLabel:
+                                id: greeting_label
+                                text: "Hi there"
+                                font_style: "H6"
+                                bold: True
+                                theme_text_color: "Custom"
+                                text_color: 1, 1, 1, 1
+                                adaptive_height: True
+                            MDLabel:
+                                id: level_xp_label
+                                text: "Level 1  •  0 / 500 XP"
+                                font_style: "Caption"
+                                theme_text_color: "Custom"
+                                text_color: 1, 1, 1, 0.85
+                                adaptive_height: True
+                            MDProgressBar:
+                                id: xp_bar_home
+                                value: 0
+                                max: 500
+                                color: 1, 1, 1, 1
+
+                        MDLabel:
+                            text: "What would you like to do?"
+                            font_style: "Subtitle1"
+                            bold: True
+                            adaptive_height: True
+
+                        MDGridLayout:
+                            id: card_grid
+                            cols: 2
+                            adaptive_height: True
+                            spacing: "14dp"
+
+            # ---------------- PROGRESS TAB ----------------
+            MDBottomNavigationItem:
+                name: "progress"
+                text: "Progress"
+                icon: "chart-line"
+
+                ScrollView:
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        adaptive_height: True
+                        padding: "16dp"
+                        spacing: "14dp"
+
+                        MDLabel:
+                            text: "Your Progress"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+
+                        MDGridLayout:
+                            cols: 2
+                            adaptive_height: True
+                            spacing: "12dp"
+                            StatTile:
+                                id: accuracy_tile
+                                value: "0%"
+                                label: "Accuracy"
+                                icon: "target"
+                                accent: 0.13, 0.66, 0.52, 1
+                            StatTile:
+                                id: solved_tile
+                                value: "0"
+                                label: "Solved"
+                                icon: "check-circle-outline"
+                                accent: 0.40, 0.31, 0.85, 1
+                            StatTile:
+                                id: streak_tile
+                                value: "0"
+                                label: "Day streak"
+                                icon: "fire"
+                                accent: 0.90, 0.49, 0.13, 1
+                            StatTile:
+                                id: level_tile
+                                value: "Lvl 1"
+                                label: "Level"
+                                icon: "star-outline"
+                                accent: 0.85, 0.27, 0.42, 1
+
+                        SectionCard:
+                            MDLabel:
+                                text: "Weekly activity"
+                                font_style: "Subtitle1"
+                                bold: True
+                                adaptive_height: True
+                            WeeklyBarChart:
+                                id: weekly_chart
+                                size_hint_y: None
+                                height: "190dp"
+                            MDLabel:
+                                id: monthly_label
+                                text: ""
+                                font_style: "Caption"
+                                theme_text_color: "Secondary"
+                                adaptive_height: True
+
+                        SectionCard:
+                            MDLabel:
+                                text: "Strong topics"
+                                font_style: "Subtitle1"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                id: strong_topics
+                                text: "-"
+                                theme_text_color: "Secondary"
+                                adaptive_height: True
+                            MDLabel:
+                                text: "Needs work"
+                                font_style: "Subtitle1"
+                                bold: True
+                                adaptive_height: True
+                            MDLabel:
+                                id: weak_topics
+                                text: "-"
+                                theme_text_color: "Secondary"
+                                adaptive_height: True
+
+            # ---------------- SETTINGS TAB ----------------
+            MDBottomNavigationItem:
+                name: "settings"
+                text: "Settings"
+                icon: "cog"
+
+                ScrollView:
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        adaptive_height: True
+                        padding: "16dp"
+                        spacing: "12dp"
+
+                        MDLabel:
+                            text: "Settings"
+                            font_style: "H5"
+                            bold: True
+                            adaptive_height: True
+
+                        SectionCard:
+                            MDBoxLayout:
+                                adaptive_height: True
+                                MDLabel:
+                                    text: "Dark mode"
+                                    adaptive_height: True
+                                MDSwitch:
+                                    active: False
+                                    pos_hint: {"center_y": 0.5}
+                                    on_active: root.on_theme_switch(self.active)
+
+                        SectionCard:
+                            MDLabel:
+                                id: font_scale_label
+                                text: "Font size  ×1.00"
+                                adaptive_height: True
+                            MDSlider:
+                                min: 0.85
+                                max: 1.40
+                                value: 1.0
+                                step: 0.05
+                                on_value: root.on_font_scale(self.value)
+
+                        SectionCard:
+                            MDBoxLayout:
+                                adaptive_height: True
+                                MDLabel:
+                                    text: "Notifications"
+                                    adaptive_height: True
+                                MDSwitch:
+                                    active: True
+                                    pos_hint: {"center_y": 0.5}
+                                    on_active: root.on_notifications(self.active)
+                            MDBoxLayout:
+                                adaptive_height: True
+                                MDLabel:
+                                    text: "Sound effects"
+                                    adaptive_height: True
+                                MDSwitch:
+                                    active: True
+                                    pos_hint: {"center_y": 0.5}
+                                    on_active: root.on_sound(self.active)
