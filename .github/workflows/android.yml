@@ -1,39 +1,74 @@
 # ============================================================================
 # Build the Android APK in the cloud (no local Linux / Android Studio needed).
 #
+# This runs Buildozer directly on an Ubuntu runner (we control the toolchain)
+# instead of a third-party Docker action, which is more reliable.
+#
 # How to use:
-#   1. Push this project to a GitHub repo (see docs/BUILD_ANDROID.md).
-#   2. GitHub runs this workflow automatically on push, OR trigger it manually:
-#      repo -> Actions tab -> "Build Android APK" -> "Run workflow".
-#   3. When it finishes, open the run -> "Artifacts" -> download the .apk.
+#   1. Push this project to GitHub.
+#   2. It runs on push, OR: repo -> Actions -> "Build Android APK" -> Run workflow.
+#   3. When green, open the run -> Artifacts -> download the .apk.
 #   4. Copy the .apk to your phone and install it (allow "unknown sources").
 #
-# NOTE: the FIRST build can take 20-40 min and may fail on heavy native libs
-# (OpenCV / Matplotlib). If it fails, read the log; the usual fix is to drop
-# Matplotlib (swap for a Kivy-drawn chart) — see docs/BUILD_ANDROID.md.
+# The FIRST build takes 30-60 min (it downloads the Android SDK/NDK and compiles
+# CPython + native libs). Later builds are cached and much faster.
 # ============================================================================
 name: Build Android APK
 
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch:        # lets you run it manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build-apk:
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
+    # Pin to 22.04: it has the apt packages python-for-android expects
+    # (24.04 dropped libtinfo5 and breaks many p4a recipes).
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
 
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Build debug APK with Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
         with:
-          command: buildozer android debug
-          buildozer_version: stable
+          python-version: "3.11"
+
+      - name: Install system build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            git zip unzip openjdk-17-jdk autoconf libtool pkg-config \
+            zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake \
+            libffi-dev libssl-dev automake build-essential ccache libltdl-dev
+
+      - name: Install Buildozer + Cython
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          # Cython must be <3 for python-for-android recipes.
+          pip install "Cython==0.29.36" "buildozer==1.5.0"
+
+      - name: Cache Buildozer SDK/NDK + build dirs
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.buildozer
+            .buildozer
+          key: buildozer-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
+          restore-keys: |
+            buildozer-${{ runner.os }}-
+
+      - name: Build debug APK
+        run: |
+          export PATH="$PATH:$HOME/.local/bin"
+          # 'yes |' auto-accepts the Android SDK licence prompt on first run.
+          yes | buildozer -v android debug
+
+      - name: List build output
+        if: always()
+        run: ls -lh bin/ || echo "no bin/ directory (build did not reach packaging)"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
