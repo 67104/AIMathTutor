@@ -56,7 +56,9 @@ def _locate_binary():
 
 
 def is_available():
-    return _locate_binary() is not None
+    """OCR needs both the Tesseract binary AND OpenCV image pre-processing."""
+    from app.core import image_pipeline
+    return image_pipeline.is_available() and _locate_binary() is not None
 
 
 def _post_process(text):
@@ -76,6 +78,10 @@ def read_math(image_path):
     """
     from app.core import image_pipeline  # local import keeps cv2 off cold paths
 
+    if not image_pipeline.is_available():
+        return {"ok": False, "text": "", "confidence": 0.0,
+                "error": ("On-device image OCR isn't available in this build — "
+                          "type the expression instead.")}
     if not _locate_binary():
         return {"ok": False, "text": "", "confidence": 0.0,
                 "error": ("Tesseract OCR engine not found. Install it "

@@ -17,17 +17,16 @@ source.include_patterns = data/schema.sql,assets/*
 version = 0.1.0
 
 # --- Python + library requirements ---
-# NOTE: names here are python-for-android RECIPE names, which differ from pip:
-#   * opencv   (NOT opencv-python)   – heavy; pulls numpy
-#   * pillow, numpy, sympy, plyer all have p4a recipes
-#   * pyjnius is needed for Android permission/camera bridging
-#   * sqlite3 ships with the python3 recipe (no entry needed)
-# Matplotlib is intentionally OMITTED — the progress chart is drawn in pure Kivy
-# (app/widgets/bar_chart.py), removing the hardest-to-package dependency.
-# Tesseract/pytesseract is also OMITTED on Android — the desktop OCR binary
-# isn't practical to bundle. See docs/BUILD_ANDROID.md for on-device OCR
-# options; the app degrades to typed input if OCR is unavailable.
-requirements = python3,kivy==2.3.0,kivymd==1.2.0,sympy,numpy,pillow,opencv,plyer,pyjnius,android
+# NOTE: names here are python-for-android RECIPE names, which differ from pip.
+# OMITTED on Android on purpose (hardest-to-package libs that provide no working
+# mobile feature here, so leaving them out makes the build reliable with zero
+# feature loss on the phone):
+#   * matplotlib     -> progress chart is drawn in pure Kivy (widgets/bar_chart.py)
+#   * opencv + numpy -> only used for OCR image pre-processing, which needs
+#       Tesseract; Tesseract isn't bundled on Android, so camera OCR degrades to
+#       typed input anyway (guarded by image_pipeline.is_available()).
+#   * pyjnius bridges Android permissions/camera; sqlite3 ships with python3.
+requirements = python3,kivy==2.3.0,kivymd==1.2.0,sympy,pillow,plyer,pyjnius,android
 
 orientation = portrait
 fullscreen = 0

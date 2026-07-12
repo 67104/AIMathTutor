@@ -11,8 +11,24 @@ It returns a binarised NumPy image ready to hand to Tesseract. A best-effort
 the APK phase via a platform camera).
 """
 
-import cv2
-import numpy as np
+# OpenCV/NumPy are the heaviest native libs and aren't bundled on Android (see
+# buildozer.spec). Guard the import so the module loads everywhere; OCR simply
+# reports itself unavailable when they're missing and the UI falls back to
+# typed input.
+try:
+    import cv2
+    import numpy as np
+    _CV_AVAILABLE = True
+except Exception:  # noqa: BLE001 - not installed / not bundled
+    cv2 = None
+    np = None
+    _CV_AVAILABLE = False
+
+
+def is_available():
+    """True if OpenCV + NumPy are present (image pre-processing possible)."""
+    return _CV_AVAILABLE
+
 
 # Keep the long edge within this range: too small hurts accuracy, too large is slow.
 _MIN_LONG_EDGE = 900
@@ -65,6 +81,8 @@ def load_image(path):
 
 def preprocess(path):
     """Return a cleaned, binarised image (NumPy uint8) ready for OCR."""
+    if not _CV_AVAILABLE:
+        raise RuntimeError("OpenCV is not available in this build")
     img = load_image(path)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     gray = _resize_into_range(gray)
@@ -88,6 +106,8 @@ def preprocess(path):
 
 def capture_webcam(save_path, cam_index=0):
     """Grab one frame from a desktop webcam and save it. Returns True on success."""
+    if not _CV_AVAILABLE:
+        return False
     cap = cv2.VideoCapture(cam_index)
     try:
         if not cap.isOpened():

@@ -63,8 +63,16 @@ jobs:
       - name: Build debug APK
         run: |
           export PATH="$PATH:$HOME/.local/bin"
+          set -o pipefail
           # 'yes |' auto-accepts the Android SDK licence prompt on first run.
-          yes | buildozer -v android debug
+          # Tee to a log; on failure print the last 120 lines so the REAL error
+          # is right at the bottom of this step — no more hunting the log.
+          if ! (yes | buildozer -v android debug 2>&1 | tee build.log); then
+            echo ""
+            echo "############### BUILD FAILED — LAST 120 LINES ###############"
+            tail -n 120 build.log
+            exit 1
+          fi
 
       - name: List build output
         if: always()
