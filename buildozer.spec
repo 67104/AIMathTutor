@@ -39,7 +39,10 @@ android.permissions = CAMERA, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, REA
 android.api = 34
 android.minapi = 24
 android.ndk = 25b
-android.archs = arm64-v8a, armeabi-v7a
+# Single ABI for the first build: arm64-v8a covers virtually all modern phones,
+# halves build time, and avoids 32-bit compile issues. Add armeabi-v7a later if
+# you need to support very old devices.
+android.archs = arm64-v8a
 android.allow_backup = 1
 
 # Branding (add PNGs to assets/, then uncomment):
