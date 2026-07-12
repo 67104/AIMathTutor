@@ -56,7 +56,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.buildozer
-          key: buildozer-sdk-${{ runner.os }}-ndk25b-api34
+          # Key includes the p4a version — bumping it discards the old cache that
+          # held the master (Python 3.14) p4a clone, forcing a fresh 2024.01.21 clone.
+          key: buildozer-sdk-v2-${{ runner.os }}-ndk25b-api34-p4a20240121
           # We deliberately do NOT cache the project .buildozer/ build dir, so the
           # Python/recipe compile always starts clean on the pinned toolchain.
 
@@ -65,12 +67,17 @@ jobs:
           export PATH="$PATH:$HOME/.local/bin"
           set -o pipefail
           # 'yes |' auto-accepts the Android SDK licence prompt on first run.
-          # Tee to a log; on failure print the last 120 lines so the REAL error
-          # is right at the bottom of this step — no more hunting the log.
           if ! (yes | buildozer -v android debug 2>&1 | tee build.log); then
             echo ""
-            echo "############### BUILD FAILED — LAST 120 LINES ###############"
-            tail -n 120 build.log
+            echo "################ REAL ERROR LINES (grep) ################"
+            # Buildozer prints a big env dump AFTER the error, and the log is full
+            # of decoy 'traceback.c' compile lines. Grep the genuine failure
+            # markers (colon-anchored so 'traceback.c'/'-Werror' don't match).
+            grep -nE "error:|fatal error|ninja: build stopped|Traceback \(most recent|Exception:|Command failed:|returned a non-zero|No such file or directory|ModuleNotFoundError|command not found|Aborting" build.log | tail -n 50 || echo "(no marker matched)"
+            echo ""
+            echo "########## LAST 150 LINES (env dump filtered out) ##########"
+            # Drop the '#   VAR = value' env-dump lines so the real error shows.
+            grep -vE "^\s*#" build.log | tail -n 150
             exit 1
           fi
 

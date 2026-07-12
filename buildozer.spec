@@ -28,6 +28,11 @@ version = 0.1.0
 #   * pyjnius bridges Android permissions/camera; sqlite3 ships with python3.
 requirements = python3,kivy==2.3.0,kivymd==1.2.0,sympy,pillow,plyer,pyjnius,android
 
+# CRITICAL: Buildozer clones its OWN python-for-android (default branch = master),
+# ignoring any pip-installed p4a. Master now builds Python 3.14, which no recipe
+# supports. Pin p4a to the stable 2024.01.21 release (builds Python 3.11).
+p4a.branch = 2024.01.21
+
 orientation = portrait
 fullscreen = 0
 
