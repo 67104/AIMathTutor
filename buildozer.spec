@@ -26,7 +26,10 @@ version = 0.1.0
 #       Tesseract; Tesseract isn't bundled on Android, so camera OCR degrades to
 #       typed input anyway (guarded by image_pipeline.is_available()).
 #   * pyjnius bridges Android permissions/camera; sqlite3 ships with python3.
-requirements = python3,kivy==2.3.0,kivymd==1.2.0,sympy,pillow,plyer,pyjnius,android
+# NOTE: sympy needs mpmath (its arithmetic backend). pip pulls it in automatically
+# on desktop, but p4a requires it listed explicitly or sympy's install aborts with
+# "Please install the mpmath package".
+requirements = python3,kivy==2.3.0,kivymd==1.2.0,sympy,mpmath,pillow,plyer,pyjnius,android
 
 # CRITICAL: Buildozer clones its OWN python-for-android (default branch = master),
 # ignoring any pip-installed p4a. Master now builds Python 3.14, which no recipe
